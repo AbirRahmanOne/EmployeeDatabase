@@ -54,4 +54,11 @@
         android:textColor="@android:color/white"
         android:textSize="20dp"/>
 
+    <ImageView
+        android:id="@+id/img_test"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/add_button"
+        android:layout_marginBottom="-246dp" />
+
 </RelativeLayout>

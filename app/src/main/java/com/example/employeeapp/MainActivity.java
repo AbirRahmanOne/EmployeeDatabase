@@ -36,14 +36,21 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton add_button ;
 
     MyDatabaseHelper empDB ;
-    ArrayList<String> e_id, e_name, e_age, e_gender ;
+    ArrayList<String> e_id, e_name, e_age, e_gender,  e_image ;
     CustomAdapter customAdapter;
+
+    static MainActivity reference;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main) ;
+
+        if(reference == null) {
+            reference = this;
+        }
+
 //permission
         recyclerView = findViewById(R.id.recyclerview) ;
         add_button = findViewById(R.id.add_button) ;
@@ -56,21 +63,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         empDB = new MyDatabaseHelper(MainActivity.this) ;
+
         e_id = new ArrayList<>();
         e_name = new ArrayList<>() ;
         e_age = new ArrayList<>() ;
         e_gender = new ArrayList<>() ;
+        e_image = new ArrayList<>() ;
+
         storeDataInArrays() ;
 
-        customAdapter  = new CustomAdapter(MainActivity.this, e_id, e_name,e_age,e_gender);
+        customAdapter  = new CustomAdapter(MainActivity.this, e_id,
+                e_name,e_age,e_gender,e_image);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
 
 
 
     }
     //Display Data
     void storeDataInArrays(){
+        e_id.clear();
+        e_name.clear();
+        e_age.clear();
+        e_gender.clear();
+        e_image.clear();
+
+        Log.d("db_add", "db");
+
         Cursor cursor = empDB.readAllData();
         if(cursor.getCount()==0){
             Toast.makeText(this, "ERROR! NO Data.", Toast.LENGTH_SHORT).show();
@@ -81,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
                 e_name.add(cursor.getString(1));
                 e_age.add(cursor.getString(2));
                 e_gender.add(cursor.getString(3)) ;
+                e_image.add(cursor.getString(4)) ;
+                //e_image.setImageBitmap(myBitmap);
+                Log.d("db_add_read", cursor.getString(1));
+
+                if(customAdapter != null) customAdapter.notifyDataSetChanged();
             }
         }
     }

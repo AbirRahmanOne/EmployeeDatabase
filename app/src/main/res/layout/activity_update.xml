@@ -1,50 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddActivity">
+    android:layout_margin="25dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
 
-
-    <EditText
-        android:id="@+id/update_name_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Name"
-        android:layout_marginTop="10dp"
-        android:inputType="textPersonName"
-        android:singleLine="false"
+    <ImageView
+        android:id="@+id/e_img_update"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
         />
 
-    <EditText
-        android:id="@+id/update_age_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/update_name_input"
-        android:ems="10"
-        android:hint="age"
-        android:inputType="number"/>
 
-    <EditText
-        android:id="@+id/update_gender_input"
+    <LinearLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/update_age_input"
-        android:ems="10"
-        android:hint="Gender"
-        android:inputType="textPersonName"/>
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="Name"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="18sp"/>
+        <EditText
+            android:id="@+id/name_update"
+            android:layout_weight="5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:gravity="center"/>
 
-    <Button
-        android:id="@+id/update_button"
-        android:layout_below="@+id/update_gender_input"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:background="@android:color/holo_blue_dark"
-        android:text="Update"
-        android:textColor="@android:color/white"
-        android:textSize="20dp"/>
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        >
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+
+            android:text="Age"
+            android:textSize="18sp" />
+        <EditText
+            android:id="@+id/age_update"
+            android:layout_weight="5"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+
+            android:text="Gender"
+            android:textSize="18sp" />
+        <EditText
+            android:id="@+id/gender_update"
+            android:layout_weight="5"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+        <Button
+            android:id="@+id/update_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:text="Update"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:text="Delete"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

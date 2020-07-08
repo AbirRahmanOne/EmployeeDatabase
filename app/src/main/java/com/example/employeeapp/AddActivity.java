@@ -16,11 +16,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.opensooq.supernova.gligar.GligarPicker;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+
+//FIXME Update Image Issue !! But not sure
 
 public class AddActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMG = 1;
@@ -28,7 +34,8 @@ public class AddActivity extends AppCompatActivity {
     EditText name_input, age_input, gender_input;
     Button add_button;
     private ImageButton imageButton;
-    //Database database = new Database(this);
+    static final int PICKER_REQUEST_CODE = 30;
+    String imgPath;
     String i1;
     String img;
 
@@ -48,57 +55,39 @@ public class AddActivity extends AppCompatActivity {
                 MyDatabaseHelper empDB = new MyDatabaseHelper(AddActivity.this);
                 empDB.addEmployee(name_input.getText().toString().trim(),
                         Integer.valueOf(age_input.getText().toString().trim()),
-                        gender_input.getText().toString().trim());
-
-
+                        gender_input.getText().toString().trim(),
+                        imgPath);
             }
         });
+
+
+        final GligarPicker picker = new GligarPicker().requestCode(PICKER_REQUEST_CODE).withActivity(this);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                imgPath = null;
+                picker.show();
             }
         });
 
 
     }
 
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-
-            case 0:
-                if (resultCode == RESULT_OK) {
-                    Uri targetUri = data.getData();
-                    //             textTargetUri.setText(targetUri.toString());
-                    Bitmap bitmap;
-                     try {
-                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
-                        imageButton.setImageBitmap(bitmap);
-
-                        i1 = bitmap.toString();
-                        Log.i("firstimage........", "" + i1);
-                        // imageButton.setVisibility(0);
-
-                        // SQLiteDatabase db = database.getWritableDatabase();
-                        ///  db.execSQL("INSERT INTO UPLOAD VALUES('" + i1 + "');");
-
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-                break;
-
-
+        if (resultCode != Activity.RESULT_OK) {
+            return;
         }
-
+        switch (requestCode) {
+            case PICKER_REQUEST_CODE: {
+                String pathsList[] = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
+                Log.d("img", Arrays.toString(pathsList));
+                //FIXME: put pathList[0] to database
+                imgPath = pathsList[0];
+                break;
+            }
+        }
     }
 }
