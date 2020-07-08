@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     //Display Data
-    //FIXME I'm Done
     void storeDataInArrays(){
         e_id.clear();
         e_name.clear();
