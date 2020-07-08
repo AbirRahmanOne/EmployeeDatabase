@@ -96,8 +96,9 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         if (result == -1) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
             MainActivity.reference.storeDataInArrays();
+            Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -108,8 +109,9 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         if (result == -1) {
             Toast.makeText(context, "Failed to Delete.", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
             MainActivity.reference.storeDataInArrays();
+            Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
+
         }
     }
 }

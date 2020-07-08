@@ -5,35 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.opensooq.supernova.gligar.GligarPicker;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 
-//FIXME Update Image Issue !! But not sure
+//FIXME Update Image Issue
 
 public class AddActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMG = 1;
     private static final int GALLERY_REQUEST = 2;
     EditText name_input, age_input, gender_input;
     Button add_button;
-    private ImageButton imageButton;
+    private ImageView EmployeeImage;
     static final int PICKER_REQUEST_CODE = 30;
     String imgPath;
     String i1;
@@ -48,7 +40,7 @@ public class AddActivity extends AppCompatActivity {
         age_input = findViewById(R.id.age_input);
         gender_input = findViewById(R.id.gender_input);
         add_button = findViewById(R.id.add_button);
-        imageButton = findViewById(R.id.iv_upload_image);
+        EmployeeImage = findViewById(R.id.iv_upload_image);
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,10 +55,10 @@ public class AddActivity extends AppCompatActivity {
 
         final GligarPicker picker = new GligarPicker().requestCode(PICKER_REQUEST_CODE).withActivity(this);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        EmployeeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imgPath = null;
+
                 picker.show();
             }
         });
@@ -83,9 +75,10 @@ public class AddActivity extends AppCompatActivity {
         switch (requestCode) {
             case PICKER_REQUEST_CODE: {
                 String pathsList[] = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
-                Log.d("img", Arrays.toString(pathsList));
-                //FIXME: put pathList[0] to database
+                //Log.d("img", Arrays.toString(pathsList));
                 imgPath = pathsList[0];
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgPath);
+                EmployeeImage.setImageBitmap(myBitmap);
                 break;
             }
         }

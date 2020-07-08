@@ -1,10 +1,13 @@
 package com.example.employeeapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,13 +19,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.opensooq.supernova.gligar.GligarPicker;
+
+import java.util.Arrays;
+
 public class UpdateActivity extends AppCompatActivity {
 
+    private static final int PICKER_REQUEST_CODE = 30;
     private TextView emp_id ;
     private EditText emp_name,emp_age, emp_gender;
     private ImageView emp_image;
     private Button update_button, delete_button;
-    private String id, name, age, gender,image;
+    private String id, name, age, gender, imgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +45,7 @@ public class UpdateActivity extends AppCompatActivity {
         update_button = findViewById(R.id.update_button);
         delete_button = findViewById(R.id.delete_button);
 
-        //First we call this
         getAndSetIntentData();
-        //Set actionbar title after getAndSetIntentData method
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setTitle(name);
@@ -48,13 +54,13 @@ public class UpdateActivity extends AppCompatActivity {
         update_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //And only then we call this
+
                 MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
                 name = emp_name.getText().toString().trim();
                 age = emp_age.getText().toString().trim();
                 gender = emp_gender.getText().toString().trim();
                // image = emp_image.getText().toString().trim();
-                myDB.updateData(id, name, age, gender,image);
+                myDB.updateData(id, name, age, gender, imgPath);
             }
         });
         delete_button.setOnClickListener(new View.OnClickListener() {
@@ -64,25 +70,54 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
 
+        final GligarPicker picker = new GligarPicker().requestCode(PICKER_REQUEST_CODE).withActivity(this);
+
+        emp_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                picker.show();
+            }
+        });
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case PICKER_REQUEST_CODE: {
+                String pathsList[] = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT); // return list of selected images paths.
+                Log.d("img", Arrays.toString(pathsList));
+                //FIXME: put pathList[0] to database
+                imgPath = pathsList[0];
+                emp_image.setImageBitmap(BitmapFactory.decodeFile(imgPath));
+                break;
+            }
+        }
     }
 
     void getAndSetIntentData(){
         if(getIntent().hasExtra("id") && getIntent().hasExtra("name") &&
                 getIntent().hasExtra("age") && getIntent().hasExtra("gender")
                     && getIntent().hasExtra("image")){
-            //Getting Data from Intent
+
             id = getIntent().getStringExtra("id");
             name = getIntent().getStringExtra("name");
             age = getIntent().getStringExtra("age");
             gender = getIntent().getStringExtra("gender");
-            image = getIntent().getStringExtra("image");
+            imgPath = getIntent().getStringExtra("image");
 
             //Setting Intent Data
             emp_name.setText(name);
             emp_age.setText(age);
             emp_gender.setText(gender);
-            if (image != null) {
-                Bitmap myBitmap = BitmapFactory.decodeFile(image);
+            if (imgPath != null) {
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgPath);
                 emp_image.setImageBitmap(myBitmap);
             } else {
                 //TODO

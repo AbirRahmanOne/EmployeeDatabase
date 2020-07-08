@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
         storeDataInArrays() ;
 
+        if(e_id.isEmpty()) {
+            putRandomData();
+        }
+
         customAdapter  = new CustomAdapter(MainActivity.this, e_id,
                 e_name,e_age,e_gender,e_image);
         recyclerView.setAdapter(customAdapter);
@@ -95,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = empDB.readAllData();
         if(cursor.getCount()==0){
             Toast.makeText(this, "ERROR! NO Data.", Toast.LENGTH_SHORT).show();
-            Log.e("DataLoading ","Suceess");
         }else{
             while(cursor.moveToNext()){
                 e_id.add(cursor.getString(0));
@@ -111,5 +114,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    void putRandomData() {
+        empDB.addEmployee("Abir Rahman", 25, "Male", null);
+        empDB.addEmployee("Ayan Rahman", 21, "Male", null);
+        empDB.addEmployee("Robin Rahman", 27, "Male", null);
+        empDB.addEmployee("Aminul Khan", 35, "Male", null);
+        empDB.addEmployee("Sakib Khan", 55, "Male", null);
+        empDB.addEmployee("Anisha Rahman", 21, "Female", null);
+        empDB.addEmployee("Maisha Rahman", 22, "Female", null);
+        empDB.addEmployee("Sadia Rahman", 23, "Female", null);
+        empDB.addEmployee("Maliha Khan", 27, "Female", null);
+        empDB.addEmployee("Mehren Khan", 29, "Female", null);
+
+        if(customAdapter != null) customAdapter.notifyDataSetChanged();
+    }
 
 }

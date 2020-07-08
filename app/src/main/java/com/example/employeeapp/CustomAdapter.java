@@ -68,6 +68,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             holder.emp_img_id.setImageBitmap(myBitmap);
         } else {
             //TODO
+           // holder.emp_img_id.setImageDrawable(R.drawable.demo_emp);
         }
 
 
@@ -90,7 +91,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return emp_age.size();
+        return emp_id.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
